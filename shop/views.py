@@ -15,9 +15,12 @@ def home(request):
     else:
         products = Product.objects.filter(available=True)
 
+    best_selling_products = Product.objects.filter(available=True).order_by('-sold_count')[:4]
+
     return render(request, 'home.html', {
         'categories': categories,
         'products': products,
+        'best_selling_products': best_selling_products,
     })
 
 

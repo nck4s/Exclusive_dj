@@ -1,34 +1,160 @@
 {% extends 'base.html' %}
 
-{% block title %}Exclusive | Главная{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/product_card.css' %}">
+{% endblock %}
+
+
+
+
+{% block title %}Home | Exclusive{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" href="/static/css/home.css">
 
-    <header>
-        <h1>Магазин Exclusive</h1>
-    </header>
+<!-- === Banner / Hero Section === -->
+<section class="hero-section">
+    <div class="hero-banner">
+        <img src="/static/img/banner.jpg" alt="Banner Image">
+    </div>
+</section>
 
-    <section>
-        <h2>Категории</h2>
-        <ul>
-            {% for category in categories %}
-                <li><a href="?category={{ category.slug }}">{{ category.name }}</a></li>
-            {% endfor %}
-        </ul>
-    </section>
-
-    <section>
-        <h2>Товары</h2>
-        <div class="products">
-            {% for product in products %}
-                <div class="product-card">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
-                    <h3>{{ product.name }}</h3>
-                    <p>{{ product.price }} ₽</p>
-                    <a href="{% url 'product_detail' product.slug %}">Подробнее</a>
-                </div>
-            {% endfor %}
+<!-- === Browse by Category === -->
+<section class="category-section">
+    <div class="section-header">
+        <h2>Browse By Category</h2>
+        <div class="nav-buttons">
         </div>
-    </section>
+    </div>
+    <div class="categories">
+        <div class="category-card"><img src="{% static 'img/phones.png' %}" alt="Phones"></div>
+        <div class="category-card"><img src="{% static 'img/computers.png' %}" alt="Computers"></div>
+        <div class="category-card"><img src="{% static 'img/watch.png' %}" alt="SmartWatch"></div>
+        <div class="category-card active"><img src="{% static 'img/camera.png' %}" alt="Camera"></div>
+        <div class="category-card"><img src="{% static 'img/headphones.png' %}" alt="Headphones"></div>
+        <div class="category-card"><img src="{% static 'img/gaming.png' %}" alt="Gaming"></div>
+    </div>
+    
+</section>
+
+<!-- === Best Selling Products === -->
+<section class="best-selling">
+    <div class="section-header">
+        <h2>Best Selling Products</h2>
+        <a href="#" class="view-all-btn">View All</a>
+    </div>
+    <div class="product-grid">
+        {% for product in best_selling_products %}
+            {% include 'partials/product_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+
+<!-- === Promotional Banner (Music Experience) === -->
+<section class="promo-banner">
+    <div class="promo-image">
+        <img src="/static/img/jbl.jpg" alt="JBL Speaker">
+    </div>
+</section>
+
+<!-- === Explore Our Products === -->
+<section class="explore-products">
+    <div class="section-header">
+        <h2>Explore Our Products</h2>
+        <a href="#" class="view-all-btn">View All</a>
+        <div class="nav-buttons">
+            <button class="nav-btn">
+                <img src="/static/img/arrow-left.svg" alt="Previous">
+            </button>
+            <button class="nav-btn">
+                <img src="/static/img/arrow-right.svg" alt="Next">
+            </button>
+        </div>
+        
+    </div>
+    <div class="product-grid">
+        {% for product in products %}
+            {% include 'partials/product_card.html' %}
+        {% endfor %}
+    </div>
+    <div class="centered-btn">
+        <a href="#" class="btn-red">View All Products</a>
+    </div>
+</section>
+
+<!-- === Feature Collection Cards === -->
+<section class="featured-collections">
+    <div class="collection-grid">
+        <div class="collection-large">
+            <img src="/static/img/ps5.jpg" alt="Playstation 5">
+            <div class="text-block">
+                <h3>PlayStation 5</h3>
+                <p>Experience the next-gen gaming</p>
+                <a href="#">Shop Now</a>
+            </div>
+        </div>
+        <div class="collection-small">
+            <img src="/static/img/women.jpg" alt="Women's Collection">
+            <div class="text-block">
+                <h3>Women's Collections</h3>
+                <a href="#">Shop Now</a>
+            </div>
+        </div>
+        <div class="collection-small">
+            <img src="/static/img/speakers.jpg" alt="Speakers">
+            <div class="text-block">
+                <h3>Speakers</h3>
+                <a href="#">Shop Now</a>
+            </div>
+        </div>
+        <div class="collection-small">
+            <img src="/static/img/perfume.jpg" alt="Perfume">
+            <div class="text-block">
+                <h3>Perfume</h3>
+                <a href="#">Shop Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- === Delivery / Service Icons === -->
+<section class="services">
+    <div class="service-item">
+        <img src="/static/img/delivery-icon.png" alt="Delivery">
+        <h4>Free and Fast Delivery</h4>
+        <p>Free delivery for orders over $140</p>
+    </div>
+    <div class="service-item">
+        <img src="/static/img/support-icon.png" alt="Support">
+        <h4>24/7 Customer Service</h4>
+        <p>Friendly 24/7 customer support</p>
+    </div>
+    <div class="service-item">
+        <img src="/static/img/money-back.png" alt="Money Back">
+        <h4>Money Back Guarantee</h4>
+        <p>We return money within 30 days</p>
+    </div>
+</section>
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const grid = document.querySelector(".explore-products .product-grid");
+        const leftBtn = document.querySelector(".explore-products .nav-btn:first-child");
+        const rightBtn = document.querySelector(".explore-products .nav-btn:last-child");
+
+        const scrollAmount = 300;
+
+        leftBtn.addEventListener("click", () => {
+            grid.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+        });
+
+        rightBtn.addEventListener("click", () => {
+            grid.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        });
+    });
+</script>
+{% endblock %}
+
 {% endblock %}

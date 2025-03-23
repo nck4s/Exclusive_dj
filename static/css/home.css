@@ -1,0 +1,141 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    width: 100%;
+}
+
+.hero-section  {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    max-width: 100%;
+    width: 100%;
+}
+
+.hero-banner, .promo-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 70%;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    
+}
+.hero-banner img, .promo-banner img {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 45px;
+}
+
+.category-section, .best-selling, .explore-products {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 50px;
+    max-width: 100%;
+    width: 100%;
+}
+
+.best-selling .product-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.section-header {
+    font-size: 30px;
+    color: black;
+    
+}
+
+.section-header h2 {
+    font-weight: 400;
+}
+
+.categories {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.category-card {
+    max-width: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.category-card img {    
+    width: 250px;
+    height: auto;
+    object-fit: contain;
+}
+/* карточки продуктов */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    max-width: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+.section-header {
+    margin-bottom: 20px;
+}
+
+.explore-products .product-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; /* В одну линию */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding-bottom: 10px;
+}
+
+.product-grid::-webkit-scrollbar {
+    display: none; /* Chrome / Safari */
+}
+
+.explore-products .product-card {
+    flex-shrink: 0;
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: auto;
+    margin-top: 20px;
+    gap: 40px;
+    border: none;
+}
+
+.nav-buttons button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: black;
+    transition: color 0.3s ease;
+
+}
+
+.nav-btn img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain ;
+}

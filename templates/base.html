@@ -1,14 +1,21 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Exclusive{% endblock %}</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
-    <link rel="stylesheet" href="/static/css/base.css">
+    {% block extra_css %}{% endblock %}
 </head>
-<body>
 
+
+<body>
+<div class="wrapper">
     <nav class="navbar">
         <div class="nav-container">
             <!-- Логотип -->
@@ -20,7 +27,7 @@
                 <li><a href="#">Contact</a></li>
                 <li><a href="#">About</a></li>
                 {% if not user.is_authenticated %}
-                    <li><a href="#">Sign Up</a></li>
+                <li><a href="#">Sign Up</a></li>
                 {% endif %}
             </ul>
 
@@ -28,10 +35,11 @@
             <div class="nav-icons">
                 <form action="#" method="get" class="search-form">
                     <input type="text" placeholder="What are you looking for?" name="q">
-                    <button type="submit">
+                    <button type="submit" class="search-button">
                         <img src="/static/img/search.svg" alt="Search" class="icon">
                     </button>
                 </form>
+
 
                 <a href="#">
                     <img src="/static/img/heart.svg" alt="Wishlist" class="icon">
@@ -42,7 +50,7 @@
             </div>
         </div>
     </nav>
-    
+
 
     <!-- Контент -->
     <main>
@@ -50,75 +58,83 @@
         {% endblock %}
     </main>
 
-<!-- 🔚 FOOTER -->
-<footer class="footer">
-    <div class="container footer-grid">
-        <div class="footer-column">
-            <h3>Exclusive</h3>
-            <p>Subscribe</p>
-            <p>Get 10% off your first order</p>
-            <form>
-                <input type="email" placeholder="Enter your email">
-                <button type="submit">
-                    <img src="/static/img/send.png" alt="Send" class="icon">
-                </button>
-            </form>
-        </div>
-
-        <div class="footer-column">
-            <h4>Support</h4>
-            <p>111 Bijoy sarani, Dhaka,<br>DH 1515, Bangladesh</p>
-            <p>exclusive@gmail.com</p>
-            <p>+88015-88888-9999</p>
-        </div>
-
-        <div class="footer-column">
-            <h4>Account</h4>
-        
-            <p><a href="#">My Account</a></p> {# {% url 'account_settings' %} #}
-        
-            {% if user.is_authenticated %}
-                <p><a href="#">Logout</a></p> {# {% url 'logout' %} #}
-            {% else %}
-                <p><a href="#">Login / Register</a></p> {# {% url 'login' %} #}
-            {% endif %}
-        
-            <p><a href="#">Cart</a></p> {# {% url 'cart' %} #}
-            <p><a href="#">Wishlist</a></p>
-            <p><a href="#">Shop</a></p>
-        </div>
-        
-
-        <div class="footer-column">
-            <h4>Quick Link</h4>
-            <p><a href="#">Privacy Policy</a></p>
-            <p><a href="#">Terms Of Use</a></p>
-            <p><a href="#">FAQ</a></p>
-            <p><a href="#">Contact</a></p>
-        </div>
-
-        <div class="footer-column">
-            <h4>Download App</h4>
-            <p>Save $3 with App New User Only</p>
-            <img src="/static/img/qr.jpg" alt="QR Code" width="80">
-            <div class="app-links">
-                <img src="/static/img/google-play.png" width="100" alt="Google Play">
-                <img src="/static/img/app-store.png" width="100" alt="App Store">
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+    
+            <div class="footer-column">
+                <h3>Exclusive</h3>
+                <p>Subscribe</p>
+                <p>Get 10% off your first order</p>
+                <form class="email-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">
+                        <img src="/static/img/send.svg" alt="Send" class="icon">
+                    </button>
+                </form>
+                
             </div>
-            <div class="socials">
-                <a href="#"><img src="/static/img/facebook.png" alt="Facebook" class="icon"></a>
-                <a href="#"><img src="/static/img/twitter.png" alt="Twitter" class="icon"></a>
-                <a href="#"><img src="/static/img/instagram.png" alt="Instagram" class="icon"></a>
-                <a href="#"><img src="/static/img/linkedin.png" alt="LinkedIn" class="icon"></a>
+    
+            <div class="footer-column">
+                <h4>Support</h4>
+                <p>111 Bijoy sarani, Dhaka,<br>DH 1515, Bangladesh</p>
+                <p>exclusive@gmail.com</p>
+                <p>+88015-88888-9999</p>
             </div>
+    
+            <div class="footer-column">
+                <h4>Account</h4>
+                <p><a href="#">My Account</a></p> {# {% url 'account_settings' %} #}
+    
+                {% if user.is_authenticated %}
+                    <p><a href="#">Logout</a></p> {# {% url 'logout' %} #}
+                {% else %}
+                    <p><a href="#">Login / Register</a></p> {# {% url 'login' %} #}
+                {% endif %}
+    
+                <p><a href="#">Cart</a></p> {# {% url 'cart' %} #}
+                <p><a href="#">Wishlist</a></p>
+                <p><a href="#">Shop</a></p>
+            </div>
+    
+            <div class="footer-column">
+                <h4>Quick Link</h4>
+                <p><a href="#">Privacy Policy</a></p>
+                <p><a href="#">Terms Of Use</a></p>
+                <p><a href="#">FAQ</a></p>
+                <p><a href="#">Contact</a></p>
+            </div>
+    
+            <div class="footer-column">
+                <h4>Download App</h4>
+                <p>Save $3 with App New User Only</p>
+    
+                <div class="qr-app-links">
+                    <img src="/static/img/qr.jpg" alt="QR Code" width="80">
+                    <div class="app-links">
+                        <img src="/static/img/google-play.png" width="100" alt="Google Play">
+                        <img src="/static/img/app-store.png" width="100" alt="App Store">
+                    </div>
+                </div>
+    
+                <div class="socials">
+                    <a href="#"><img src="/static/img/facebook.png" alt="Facebook" class="icon"></a>
+                    <a href="#"><img src="/static/img/twitter.png" alt="Twitter" class="icon"></a>
+                    <a href="#"><img src="/static/img/instagram.png" alt="Instagram" class="icon"></a>
+                    <a href="#"><img src="/static/img/linkedin.png" alt="LinkedIn" class="icon"></a>
+                </div>
+            </div>
+    
+        </div> <!-- закрытие footer-container -->
+    
+        <div class="footer-bottom">
+            <p>&copy; Copyright Rimel 2022. All rights reserved</p>
         </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; Copyright Rimel 2022. All rights reserved</p>
-    </div>
-</footer>
-
+    </footer>
+    
+</div>
+{% block extra_js %}{% endblock %}
 
 </body>
+
 </html>

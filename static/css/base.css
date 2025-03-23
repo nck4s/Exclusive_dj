@@ -4,15 +4,21 @@
     box-sizing: border-box;
     text-decoration: none;
     color: inherit;
+    background-color: white;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f5f5f5;
     color: #333;
     padding: 40px 135px;
+    padding-bottom: 0;
+    min-height: 100%;
+    height: 100%;
     
 }
+
+
+
 
 
 .nav-container {
@@ -82,20 +88,228 @@ body {
     justify-content: center;
 }
 
+.nav-icons a {
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+}
+
+.nav-icons a img {
+    width: 35px;
+    height: 35px;
+}
+
 .search-form {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     max-width: 243px;
     width: 100%;
+    position: relative;
 
 }
 
 .search-form input {
     width: 100%;
-    padding: 8px 16px;
-    border: 1px solid #ccc;
+    padding: 10px 20px;
+    padding-right: 40px;
+    border: none;
     border-radius: 4px;
     font-size: 16px;
-    color: #333;
+    background-color: #F5F5F5;
+    max-height: 88px;
+    height: fit-content;
+}
+
+.search-button {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+}
+
+.search-button img.icon {
+    width: 20px;
+    height: 20px;
+    background: transparent;
+}
+
+.search-form input::placeholder {
+    color: #BDBDBD;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 40px 30px;
+
+    }
+    .nav-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .nav-icons {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+
+/* FOOTER */
+
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 80px;
+    background-color: black;
+    color: white;
+}
+* {
+    background: transparent;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    gap: 87px;
+    margin-bottom: 0;
+    padding: 50px;
+    
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: start;
+    gap: 16px;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.footer-column h4 {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    background: transparent;
+}
+
+.footer-column form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    position: relative;
+}
+
+.footer-column input[type="email"] {
+    width: 100%;
+    padding: 10px 45px 10px 12px; /* справа место под кнопку */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-column button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.footer-column button img.icon {
+    width: 25px;
+    height: 25px;
+}
+
+.app-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+
+.qr-app-links {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.app-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.socials {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.socials img {
+    width: 28px;
+    height: 28px;
+}
+
+
+.footer-bottom {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* вся высота окна */
+}
+
+main {
+    flex: 1; /* занимает всё доступное место */
 }
