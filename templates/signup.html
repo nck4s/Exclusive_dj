@@ -1,15 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Регистрация | Exclusive{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block title %}Sign Up | Exclusive{% endblock %}
 
 {% block content %}
-    <h1>Регистрация</h1>
+<div class="auth-container">
+    <div class="auth-image">
+        <img src="{% static 'img/signup-image.jpg' %}" alt="Phone and cart"> 
+        <!-- Подставь своё изображение -->
+    </div>
+    <div class="auth-form">
+        <h2>Create an account</h2>
+        <p>Enter your details below</p>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Зарегистрироваться</button>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="primary-btn">Create Account</button>
+        </form>
 
-    <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+
+        <p class="auth-switch">
+            Already have account? <a href="{% url 'login' %}">Log in</a>
+        </p>
+    </div>
+</div>
 {% endblock %}

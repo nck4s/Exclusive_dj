@@ -1,26 +1,38 @@
+{% load static %}
+
 <div class="product-card">
-    <!-- Верхняя часть: изображение + wishlist -->
     <div class="product-image">
-        <a href="#"> {# {% url 'product_detail' product.slug %} #}
+        <a href="{% url 'product_detail' product.slug %}">
             <img src="{{ product.image.url }}" alt="{{ product.name }}">
         </a>
-        <a href="#" class="wishlist-btn"> {# {% url 'add_to_wishlist' product.id %} #}
-            <img src="/static/img/heart.svg" alt="Add to wishlist">
-        </a>
+
+        {% if user.is_authenticated %}
+            <div class="wishlist-btn" data-product-id="{{ product.id }}">
+                <img src="{% static 'img/heart.svg' %}" 
+                     alt="Wishlist" 
+                     class="wishlist-icon"
+                     {% if product.id in wishlist_product_ids %}
+                         data-active="true"
+                         src="{% static 'img/heart-filled.svg' %}"
+                     {% endif %}
+                >
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}" class="wishlist-btn">
+                <img src="{% static 'img/heart.svg' %}" alt="Login to Wishlist">
+            </a>
+        {% endif %}
     </div>
 
-    <!-- Нижняя часть: текстовая информация -->
     <div class="product-content">
         <p class="product-category">{{ product.category.name }}</p>
         <h3 class="product-title">
-            <a href="#"> {# {% url 'product_detail' product.slug %} #}
-                {{ product.name }}
-            </a>
+            <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
         </h3>
         <div class="product-price-rating">
             <span class="product-price">${{ product.price }}</span>
-            <span class="product-rating">★★★★★</span> <!-- временно статично -->
+            <span class="product-rating">★★★★★</span>
         </div>
-        <a href="#" class="add-to-cart-btn">Add to Cart</a> {# {% url 'add_to_cart' product.id %} #}
+        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
     </div>
 </div>

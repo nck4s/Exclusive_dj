@@ -4,24 +4,29 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .forms import CustomSignupForm
+from django.http import JsonResponse
+from .models import Product, WishlistItem
+
+from django.views.decorators.http import require_POST
 
 
 def home(request):
-    category_slug = request.GET.get('category')
+    products = Product.objects.filter(available=True)
+    best_selling_products = products.order_by('-id')[:4]
     categories = Category.objects.all()
 
-    if category_slug:
-        products = Product.objects.filter(category__slug=category_slug, available=True)
-    else:
-        products = Product.objects.filter(available=True)
-
-    best_selling_products = Product.objects.filter(available=True).order_by('-sold_count')[:4]
+    wishlist_product_ids = []
+    if request.user.is_authenticated:
+        wishlist_product_ids = WishlistItem.objects.filter(user=request.user).values_list('product_id', flat=True)
 
     return render(request, 'home.html', {
-        'categories': categories,
         'products': products,
         'best_selling_products': best_selling_products,
+        'categories': categories,
+        'wishlist_product_ids': list(wishlist_product_ids),
     })
+
 
 
 def product_detail(request, slug):
@@ -69,30 +74,68 @@ def cart(request):
         'total': total
     })
 
+
+
+
 def signup_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomSignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = CustomSignupForm()
     return render(request, 'signup.html', {'form': form})
 
 
+from .forms import CustomLoginForm
+
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomLoginForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
             return redirect('home')
     else:
-        form = AuthenticationForm()
+        form = CustomLoginForm()
     return render(request, 'login.html', {'form': form})
 
 
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
+from .models import WishlistItem
+
+
+@login_required
+def wishlist_view(request):
+    wishlist_items = WishlistItem.objects.filter(user=request.user).select_related('product')
+    return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})
+
+@login_required
+def add_to_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    WishlistItem.objects.get_or_create(user=request.user, product=product)
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def remove_from_wishlist(request, product_id):
+    WishlistItem.objects.filter(user=request.user, product_id=product_id).delete()
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+
+@require_POST
+@login_required
+def toggle_wishlist(request, product_id):
+    product = Product.objects.get(id=product_id)
+    item, created = WishlistItem.objects.get_or_create(user=request.user, product=product)
+
+    if created:
+        return JsonResponse({'status': 'added'})
+    else:
+        item.delete()
+        return JsonResponse({'status': 'removed'})

@@ -58,6 +58,7 @@ body {
 .nav-links a {
     text-decoration: none;
     transition: 0.2s ease-in-out;
+    color: black;
 }
 .nav-links a::after {
     content: '';
@@ -312,4 +313,17 @@ body {
 
 main {
     flex: 1; /* занимает всё доступное место */
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 40px;
+        padding: 40px;
+        padding-bottom: 0;
+    }
+    .footer-bottom {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
 }

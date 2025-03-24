@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{% static 'css/product_card.css' %}">
 {% endblock %}
 
+<meta name="csrf-token" content="{{ csrf_token }}">
 
 
 
@@ -80,39 +81,30 @@
         {% endfor %}
     </div>
     <div class="centered-btn">
-        <a href="#" class="btn-red">View All Products</a>
     </div>
 </section>
 
 <!-- === Feature Collection Cards === -->
 <section class="featured-collections">
+    <div class="section-header">
+        <h2>New Arrival</h2>
+    </div>
     <div class="collection-grid">
-        <div class="collection-large">
-            <img src="/static/img/ps5.jpg" alt="Playstation 5">
+        <div class="collection-item">
+            <img src="/static/img/ps5.png" alt="Playstation 5">
             <div class="text-block">
                 <h3>PlayStation 5</h3>
                 <p>Experience the next-gen gaming</p>
                 <a href="#">Shop Now</a>
             </div>
         </div>
-        <div class="collection-small">
-            <img src="/static/img/women.jpg" alt="Women's Collection">
-            <div class="text-block">
-                <h3>Women's Collections</h3>
-                <a href="#">Shop Now</a>
+        <div class="collection-item">
+            <div class="item-image">
+            <img src="/static/img/speakers.png" alt="Speakers">
             </div>
-        </div>
-        <div class="collection-small">
-            <img src="/static/img/speakers.jpg" alt="Speakers">
             <div class="text-block">
                 <h3>Speakers</h3>
-                <a href="#">Shop Now</a>
-            </div>
-        </div>
-        <div class="collection-small">
-            <img src="/static/img/perfume.jpg" alt="Perfume">
-            <div class="text-block">
-                <h3>Perfume</h3>
+                <p>Amazon wireless speakers</p>
                 <a href="#">Shop Now</a>
             </div>
         </div>
@@ -139,22 +131,69 @@
 </section>
 {% block extra_js %}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const grid = document.querySelector(".explore-products .product-grid");
-        const leftBtn = document.querySelector(".explore-products .nav-btn:first-child");
-        const rightBtn = document.querySelector(".explore-products .nav-btn:last-child");
+// Получение CSRF-токена из куки
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
-        const scrollAmount = 300;
+document.addEventListener("DOMContentLoaded", function () {
+    // Перелистывание
+    const grid = document.querySelector(".explore-products .product-grid");
+    const leftBtn = document.querySelector(".explore-products .nav-btn:first-child");
+    const rightBtn = document.querySelector(".explore-products .nav-btn:last-child");
+    const scrollAmount = 300;
 
-        leftBtn.addEventListener("click", () => {
-            grid.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-        });
+    leftBtn?.addEventListener("click", () => {
+        grid.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
 
-        rightBtn.addEventListener("click", () => {
-            grid.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    rightBtn?.addEventListener("click", () => {
+        grid.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    });
+
+    // Избранное через AJAX
+    document.querySelectorAll(".wishlist-btn").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+            const img = this.querySelector("img");
+
+            fetch("{% url 'toggle_wishlist' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    product_id: productId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "added") {
+                    img.src = "/static/img/heart-filled.svg";
+                } else {
+                    img.src = "/static/img/heart.svg";
+                }
+            })
+            .catch(err => console.error("Ошибка избранного:", err));
         });
     });
+});
 </script>
 {% endblock %}
+
+
 
 {% endblock %}
